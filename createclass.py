@@ -3,7 +3,7 @@ import re
 
 def init_parse_line():  # split the line into name and email and return
 
-    pattern = re.compile(r"(\S+\s?\S+\s?\S+)\s+(\S+)\s*(\d*)")
+    pattern = re.compile(r"(\d+)\s+(\S+\s?\S+\s?\S+)\s+(\S+)")
 
     def parse_line(line):
         return re.match(pattern, line.strip()).groups()
@@ -21,11 +21,11 @@ def main():  # read in each line of input and load into csv
 
     myin = open("input", "r")
     myout = open("output.csv", "w")
-    myout.write("Full Name,Email,SID")
+    myout.write("Full Name,Email,SID\n")
     for line in myin:
         output = parse_line(line)
-        output = (format_name(output[0]),output[1])
-        myout.write("%s,%s\n" % output)
+        uid,name,email = (output[0],format_name(output[1]),output[2])
+        myout.write("%s,%s,%s\n" % (name[1:],email,uid))
 
     myin.close()
     myout.close()
